@@ -8,14 +8,12 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                // Checkout the code from the repository
-                git url: 'https://your-repo-url', branch: 'main'
+                git url: 'https://github.com/Mayank-kr-sh/Docker-Demo', branch: 'main'
             }
         }
 
         stage('Build') {
             steps {
-                // Build the Docker image
                 script {
                     docker.build("${DOCKER_IMAGE}")
                 }
@@ -24,7 +22,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Run the React app's tests
                 sh 'npm install'
                 sh 'npm test -- --watchAll=false'
             }
@@ -32,7 +29,6 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Run the Docker container
                 script {
                     docker.image("${DOCKER_IMAGE}").run("-p 3000:80")
                 }
