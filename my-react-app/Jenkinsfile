@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "my-react-app"
+    }
+
+    stages {
+        stage('Clone repository') {
+            steps {
+                // Checkout the code from the repository
+                git url: 'https://your-repo-url', branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the Docker image
+                script {
+                    docker.build("${DOCKER_IMAGE}")
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run the React app's tests
+                sh 'npm install'
+                sh 'npm test -- --watchAll=false'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Run the Docker container
+                script {
+                    docker.image("${DOCKER_IMAGE}").run("-p 3000:80")
+                }
+            }
+        }
+    }
+}
