@@ -21,13 +21,13 @@ pipeline {
         }
 
         stage('Test') {
-    steps {
-        dir('my-react-app') {
-            sh 'npm install'
-            sh 'npm test -- --watchAll=false || true' // Allow pipeline to continue even if tests fail
+            steps {
+                dir('my-react-app') {
+                    sh 'npm install'
+                    sh 'npm test -- --watchAll=false || true' 
+                }
+            }
         }
-    }
-}
 
 
         stage('Deploy') {
