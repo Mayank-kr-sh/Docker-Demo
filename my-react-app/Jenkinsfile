@@ -15,15 +15,17 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}")
+                    docker.build("${DOCKER_IMAGE}","my-react-app")
                 }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm install'
-                sh 'npm test -- --watchAll=false'
+                dir('my-react-app') {
+                    sh 'npm install'
+                    sh 'npm test -- --watchAll=false'
+                }
             }
         }
 
